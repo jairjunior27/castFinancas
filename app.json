@@ -1,10 +1,10 @@
 {
   "expo": {
-    "name": "financas-app",
+    "name": "Cast Finanças",
     "slug": "financas-app",
-    "version": "1.0.0",
+    "version": "1.1.0",
     "orientation": "portrait",
-    "icon": "./assets/images/icon.png",
+    "icon": "./src/assets/images/iconCastFinancas.png",
     "scheme": "myapp",
     "userInterfaceStyle": "automatic",
     "newArchEnabled": true,
@@ -13,29 +13,46 @@
     },
     "android": {
       "adaptiveIcon": {
-        "foregroundImage": "./assets/images/adaptive-icon.png",
+        "foregroundImage": "./src/assets/images/adaptive-icon.png",
         "backgroundColor": "#ffffff"
-      }
+      },
+      "config": {
+        "googleMobileAdsAppId": "ca-app-pub-3940256099942544/6300978111"
+      },
+      "versionCode": 2,
+      "targetSdkVersion": 34,
+      "minSdkVersion": 21,
+      "package": "com.jairjr.financasapp"
     },
     "web": {
       "bundler": "metro",
       "output": "static",
-      "favicon": "./assets/images/favicon.png"
+      "favicon": "./src/assets/images/favicon.png"
     },
     "plugins": [
       "expo-router",
       [
         "expo-splash-screen",
         {
-          "image": "./assets/images/splash-icon.png",
+          "image": "./src/assets/images/splashIcon.png",
           "imageWidth": 200,
           "resizeMode": "contain",
           "backgroundColor": "#ffffff"
         }
-      ]
+      ],
+      "expo-sqlite"
     ],
     "experiments": {
       "typedRoutes": true
-    }
+    },
+    "extra": {
+      "router": {
+        "origin": false
+      },
+      "eas": {
+        "projectId": "ad7e3cb0-2d66-4b42-9463-9008b0dc7ca1"
+      }
+    },
+    "owner": "jairjr"
   }
 }
