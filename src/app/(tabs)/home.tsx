@@ -19,13 +19,18 @@ import { Despesas } from "@/conponents/despesas";
 import { Receita } from "@/conponents/receita";
 import { Fatura } from "@/conponents/fatura";
 import { ContextUser } from "@/globalContext/usuario/context";
+import { ContextTransacao } from "@/globalContext/transacoes/context";
 
 export default function Page() {
   const [categoria, setCategoria] = useState("");
   const [selected, setSelected] = useState<number | null>(null);
-  const [isModal, setIsModal] = useState(false);
   const usuario = useContext(ContextUser);
   const data = TiposTransacoes;
+  const transacoes = useContext(ContextTransacao)
+  
+if (!transacoes) {
+  return null; 
+}
   useEffect(() => {
     const loadCadastro = async () => {
       if (!usuario?.user) {
@@ -76,14 +81,14 @@ export default function Page() {
         <Balanco />
         <Transacoes />
         <Modal
-          visible={isModal}
+          visible={transacoes?.isModal}
           animationType="slide"
-          onRequestClose={() => setIsModal(false)}
+          onRequestClose={() => transacoes?.setIsModal(false)}
         >
           <View style={styleModal.container}>
             <View style={styleModal.containerInTerno}>
               <View style={styleModal.headerModal}>
-                <TouchableOpacity onPress={() => setIsModal(false)}>
+                <TouchableOpacity onPress={() => transacoes.setIsModal(false)}>
                   <View style={styleModal.iconBack}>
                     <Feather name="chevron-left" size={22} color="#fff" />
                   </View>
@@ -114,7 +119,7 @@ export default function Page() {
         </Modal>
       </View>
       <TouchableOpacity
-        onPress={() => setIsModal(true)}
+        onPress={() => transacoes.setIsModal(true)}
         style={style.adcionarTransacoes}
       >
         <Feather name="plus" size={22} color="#fff" />

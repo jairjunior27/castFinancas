@@ -18,15 +18,15 @@ export const style = StyleSheet.create({
     marginVertical: 20,
   },
   inputData: {
-   flexDirection: "row",
-   backgroundColor: "rgba(164, 165, 88, 0.77)",
-   alignItems: "center",
-   justifyContent: "center",
+    flexDirection: "row",
+    backgroundColor: "rgba(164, 165, 88, 0.77)",
+    alignItems: "center",
+    justifyContent: "center",
     padding: 10,
     borderRadius: 10,
     marginVertical: 20,
   },
-  textInputData:{
+  textInputData: {
     marginLeft: 10,
     color: "rgba(255, 255, 255, 0.99)",
   },
@@ -38,8 +38,11 @@ export const style = StyleSheet.create({
     borderRadius: 10,
     marginVertical: 20,
   },
-  textButtom:{
+  textoMsg: {
+    textAlign: "center",
     color: "rgba(255, 255, 255, 0.99)",
- 
-   }
+  },
+  textButtom: {
+    color: "rgba(255, 255, 255, 0.99)",
+  },
 });

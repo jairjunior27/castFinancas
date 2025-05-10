@@ -5,13 +5,8 @@ import { ContextTransacao } from "./context";
 
 export const TransacoesProvider = ({ children }: { children: ReactNode }) => {
   const [transacoes, setTransacoes] = useState<transacoesType[]>([]);
-  const {
-    create,
-    getAll,
-    update,
-    remove,
- 
-  } = useTransacoesDataBase(); 
+  const [isModal, setIsModal] = useState(false);
+  const { create, getAll, update, remove } = useTransacoesDataBase();
 
   const loadTransacoes = async () => {
     const data = await getAll();
@@ -26,18 +21,18 @@ export const TransacoesProvider = ({ children }: { children: ReactNode }) => {
   }, []);
 
   const adicionarTransacao = async (novaTransacao: transacoesType) => {
-    await create(novaTransacao); 
-    await loadTransacoes(); 
+    await create(novaTransacao);
+    await loadTransacoes();
   };
 
   const editarTransacao = async (novaTransacao: transacoesType) => {
-    await update(novaTransacao); 
+    await update(novaTransacao);
     await loadTransacoes(); // Recarrega as transações após editar
   };
 
   const deletarTransacao = async (id: number) => {
-    await remove(id); 
-    await loadTransacoes(); 
+    await remove(id);
+    await loadTransacoes();
   };
 
   return (
@@ -48,6 +43,8 @@ export const TransacoesProvider = ({ children }: { children: ReactNode }) => {
         loadTransacoes,
         deletarTransacao,
         editarTransacao,
+        isModal,
+        setIsModal,
       }}
     >
       {children}

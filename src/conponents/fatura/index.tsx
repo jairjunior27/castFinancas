@@ -1,4 +1,4 @@
-import { useState } from "react";
+import { useContext, useEffect, useState } from "react";
 import {
   Text,
   TextInput,
@@ -13,7 +13,9 @@ import * as Notifications from "expo-notifications";
 import { styleFatura } from "./style";
 import { Feather } from "@expo/vector-icons";
 import { useTransacoesDataBase } from "@/utils/dataBase/bancoSqlTransacao";
-import { formatarMoeda } from "@/helps/formatValor";
+import { formatarMoeda, limparMoeda } from "@/helps/formatValor";
+import { Transacoes } from "../transacoes";
+import { ContextTransacao } from "@/globalContext/transacoes/context";
 
 export const Fatura = () => {
   const [titulo, setTitulo] = useState<string>("");
@@ -21,35 +23,49 @@ export const Fatura = () => {
   const [dataVencimento, setDataVencimento] = useState(new Date());
   const [mostrarDatePicker, setMostrarDatePicker] = useState(false);
   const [isDate, setIsDate] = useState(false);
-  const {adcionarFatura} = useTransacoesDataBase()
+  const { adcionarFatura, getAllFatura } = useTransacoesDataBase();
+  const [msg, setMsg] = useState("");
+  const transacao = useContext(ContextTransacao);
+  useEffect(() => {
+    if (msg !== "") {
+      const time = setTimeout(() => {
+        setMsg("");
+        transacao?.setIsModal(false);
+      }, 3000);
+      return () => clearTimeout(time);
+    }
+  }, [msg]);
   const handleSalvar = async () => {
-    if (!titulo.trim()) {
-      alert("Preencha o título da fatura.");
+    if (!titulo.trim() || !valor.trim()) {
+      setMsg("Preencha o todos os campos !");
       return;
     }
-  
+
     const novaFatura = {
       id: Date.now(),
       titulo,
-      valor: parseFloat(valor.replace(",",".")),
+      valor: limparMoeda(valor),
       data: dataVencimento.getTime(),
     };
-  
+
     await salvarFatura(novaFatura);
-  
+
     const agora = new Date();
     agora.setHours(0, 0, 0, 0);
-  
+
     const vencimento = new Date(dataVencimento);
     vencimento.setHours(0, 0, 0, 0);
-  
+
     const dataTresDiasAntes = new Date(
       dataVencimento.getFullYear(),
       dataVencimento.getMonth(),
       dataVencimento.getDate() - 3,
-      9, 0, 0, 0
+      9,
+      0,
+      0,
+      0
     );
-  
+
     if (dataTresDiasAntes.getTime() > Date.now()) {
       await Notifications.scheduleNotificationAsync({
         identifier: `fatura-${novaFatura.id}-3dias`,
@@ -63,14 +79,17 @@ export const Fatura = () => {
         } as Notifications.DateTriggerInput,
       });
     }
-  
+
     const dataNoDia = new Date(
       dataVencimento.getFullYear(),
       dataVencimento.getMonth(),
       dataVencimento.getDate(),
-      9, 0, 0, 0
+      9,
+      0,
+      0,
+      0
     );
-  
+
     if (dataNoDia.getTime() > Date.now()) {
       await Notifications.scheduleNotificationAsync({
         identifier: `fatura-${novaFatura.id}-hoje`,
@@ -84,19 +103,19 @@ export const Fatura = () => {
         } as Notifications.DateTriggerInput,
       });
     }
-    await adcionarFatura(novaFatura)
-    alert("Fatura salva e notificações agendadas!");
-  
+    await adcionarFatura(novaFatura);
+    setMsg("Fatura salva e notificações agendadas!");
+
     setTitulo("");
     setValor("");
     setDataVencimento(new Date());
     setIsDate(false);
   };
-  
-  const handleChange = (text: string) =>{
-   const formatado = formatarMoeda(text)
-   setValor(formatado)
-  }
+
+  const handleChange = (text: string) => {
+    const formatado = formatarMoeda(text);
+    setValor(formatado);
+  };
   return (
     <View>
       <TextInput
@@ -136,7 +155,7 @@ export const Fatura = () => {
           }}
         />
       )}
-
+      {msg && <Text style={styleFatura.textoMsg}>{msg}</Text>}
       <TouchableOpacity style={styleFatura.button} onPress={handleSalvar}>
         <Text style={styleFatura.textoButtom}>Salvar Fatura</Text>
       </TouchableOpacity>

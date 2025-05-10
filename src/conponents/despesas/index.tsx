@@ -10,7 +10,7 @@ import { SelectedIcon } from "../slectedIcon";
 import DateTimePicker from "@react-native-community/datetimepicker";
 
 import { style } from "./style";
-import { useContext, useState } from "react";
+import { useContext, useEffect, useState } from "react";
 import { Feather } from "@expo/vector-icons";
 import { DespesasHelps } from "@/helps/despesasHelp";
 import { ContextTransacao } from "@/globalContext/transacoes/context";
@@ -23,9 +23,20 @@ export const Despesas = () => {
   const [showPicker, setShowPicker] = useState(false);
   const [title, setTitle] = useState("");
   const [valor, setValor] = useState("");
+  const [msg, setMsg] = useState("");
   const [isDate, setIsDate] = useState(false);
   const tipo: "Entrada" | "Saida" = "Saida";
   const transacao = useContext(ContextTransacao);
+
+  useEffect(() => {
+    if (msg !== "") {
+      const time = setTimeout(() => {
+        setMsg("");
+        transacao?.setIsModal(false);
+      }, 3000);
+      return () => clearTimeout(time);
+    }
+  }, [msg]);
 
   const handleDateChange = (event: any, selectedDate?: Date) => {
     setShowPicker(Platform.OS === "ios"); // No iOS, precisa manter aberto
@@ -37,14 +48,19 @@ export const Despesas = () => {
 
   const salvarTransacao = async () => {
     if (!title || !valor || selected === null) {
-      alert("Preencha todos os campos");
+      setMsg("Preencha todos os campos !");
       return;
     }
 
     const novaTransacao = {
       id: new Date().getTime(),
       title,
-      valor: parseFloat(valor),
+      valor: parseFloat(
+        valor
+          .replace(/\./g, "")
+          .replace(",", ".")
+          .replace(/[^\d.-]/g, "")
+      ),
       data: date.toISOString(),
       icon: DespesasHelps.find((item) => item.id === selected)?.icon || "",
       tipo,
@@ -55,7 +71,7 @@ export const Despesas = () => {
       setTitle(""); // Resetar campos
       setValor("");
       setSelected(null);
-      alert("Transação salva com sucesso");
+      setMsg("Transação salva com sucesso !");
     } catch (e) {
       console.error("Erro ao salvar transação:", e);
     }
@@ -111,6 +127,7 @@ export const Despesas = () => {
             onChange={handleDateChange}
           />
         )}
+        {msg && <Text style={style.textoMsg}>{msg}</Text>}
         <TouchableOpacity style={style.buttom} onPress={salvarTransacao}>
           <Text style={style.textButtom}>Enviar</Text>
         </TouchableOpacity>

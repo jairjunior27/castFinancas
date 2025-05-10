@@ -36,6 +36,10 @@ export const style = StyleSheet.create({
     borderRadius: 10,
     marginVertical: 20,
   },
+  textoMsg: {
+    textAlign: "center",
+    color: "rgba(255, 255, 255, 0.99)",
+  },
   textButtom: {
     color: "rgba(255, 255, 255, 0.99)",
   },

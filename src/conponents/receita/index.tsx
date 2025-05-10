@@ -7,7 +7,7 @@ import {
   View,
 } from "react-native";
 import { SelectedIcon } from "../slectedIcon";
-import { useContext, useState } from "react";
+import { useContext, useEffect, useState } from "react";
 import { style } from "./style";
 import DateTimePicker from "@react-native-community/datetimepicker";
 import { Feather } from "@expo/vector-icons";
@@ -21,7 +21,17 @@ export const Receita = () => {
   const [title, setTitle] = useState("");
   const [valor, setValor] = useState("");
   const [isdate, setIsDate] = useState(false);
+  const [msg, setMsg] = useState("");
 
+  useEffect(() => {
+    if (msg !== "") {
+      const time = setTimeout(() => {
+        setMsg("");
+        transacao?.setIsModal(false);
+      }, 3000);
+      return () => clearTimeout(time);
+    }
+  }, [msg]);
   const iconReceitas = ReceitasHelps;
   const tipo: "Entrada" | "Saida" = "Entrada";
   const transacao = useContext(ContextTransacao);
@@ -34,15 +44,20 @@ export const Receita = () => {
   };
 
   const salvarTransacao = async () => {
-    if (!title || !valor || !selected === null) {
-      alert("Favor preencher todos os campos");
+    if (!title || !valor || selected === null) {
+      setMsg("Favor preencher todos os campos !");
 
       return;
     }
     const novaTransacao = {
       id: new Date().getTime(),
       title,
-      valor: parseFloat(valor),
+      valor: parseFloat(
+        valor
+          .replace(/\./g, "")
+          .replace(",", ".")
+          .replace(/[^\d.-]/g, "")
+      ),
       data: date.toISOString(),
       icon: ReceitasHelps.find((item) => item.id === selected)?.icon || "",
       tipo,
@@ -52,7 +67,7 @@ export const Receita = () => {
       setTitle("");
       setValor("");
       setSelected(null);
-      alert("Transação salva com sucesso");
+      setMsg("Transação salva com sucesso !");
     } catch (e) {
       console.error("Erro ao salvar transação:", e);
     }
@@ -110,6 +125,7 @@ export const Receita = () => {
             onChange={handleDateChange}
           />
         )}
+        {msg && <Text style={style.textoMsg}>{msg}</Text>}
         <TouchableOpacity style={style.buttom} onPress={salvarTransacao}>
           <Text style={style.textButtom}>Enviar</Text>
         </TouchableOpacity>

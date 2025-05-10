@@ -22,7 +22,8 @@ export const style = StyleSheet.create({
     marginHorizontal: 10,
     color:"rgb(70, 62, 62)",
     fontSize:16,
-    fontWeight: "500"
+    fontWeight: "500",
+    maxWidth: 120
   },
   tituloValorData:{
    color: "#081a2c",

@@ -8,6 +8,11 @@ export const styleFatura = StyleSheet.create({
     marginVertical: 20,
   },
 
+  textoMsg:{
+    textAlign: "center",
+    color: "rgba(255, 255, 255, 0.99)",
+  },
+
   textoButtom: {
     color: "#fff",
     marginLeft: 10,

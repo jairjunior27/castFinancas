@@ -21,6 +21,7 @@ import { transacoesType } from "@/types/transacoes";
 import { Feather } from "@expo/vector-icons";
 import { mesCalendar } from "@/helps/calendarioMensal";
 import { ContextTransacao } from "@/globalContext/transacoes/context";
+import { FormatDinheiroBr } from "@/helps/formatDinheiro";
 
 const screenWidth = Dimensions.get("window").width;
 
@@ -55,7 +56,7 @@ export default function RelatorioGrafico() {
 
   useEffect(() => {
     carregarDados();
-  }, [mesAtual, anoAtual]);
+  }, [mesAtual, anoAtual, dadosTransaqcoes?.transacoes]);
 
   const carregarDados = async () => {
     if (!dadosTransaqcoes?.transacoes?.length) return;
@@ -74,7 +75,6 @@ export default function RelatorioGrafico() {
     );
 
     const dados = Object.keys(resumo).map((label, index) => ({
-      
       name: label,
       value: resumo[label],
       color: index % 2 === 0 ? "#2E8B57" : "#FF4500",
@@ -92,8 +92,9 @@ export default function RelatorioGrafico() {
     try {
       const uri = await captureRef(chartRef, {
         format: "png",
-        quality: 0.8,
+        quality: 1,
         result: "base64",
+        width: screenWidth * 2, 
       });
 
       const imagem = `data:image/png;base64,${uri}`;
@@ -169,7 +170,7 @@ export default function RelatorioGrafico() {
     dados.forEach((item: any) => {
       textoRelatorio += `<p><strong>${
         item.name
-      }:</strong> R$ ${item.value.toFixed(2)}</p>`;
+      }:</strong> R$ ${FormatDinheiroBr(item.value)}</p>`;
     });
 
     textoRelatorio += `
@@ -192,7 +193,7 @@ export default function RelatorioGrafico() {
                 <tr>
                   <td>${t.title}</td>
                   <td>${t.tipo}</td>
-                  <td>${t.valor.toFixed(2)}</td>
+                  <td>${FormatDinheiroBr(t.valor)}</td>
                   <td>${FormatData(t.data)}</td>
                 </tr>`
             )
@@ -200,9 +201,9 @@ export default function RelatorioGrafico() {
         </tbody>
       </table>
       <h2>Total Geral</h2>
-      <p><strong>Receitas Totais:</strong> R$ ${totalReceitas.toFixed(2)}</p>
-      <p><strong>Despesas Totais:</strong> R$ ${totalDespesas.toFixed(2)}</p>
-      <p><strong>Saldo Final:</strong> R$ ${saldoAtual.toFixed(2)}</p>
+      <p><strong>Receitas Totais:</strong> R$ ${FormatDinheiroBr(totalReceitas)}</p>
+      <p><strong>Despesas Totais:</strong> R$ ${FormatDinheiroBr(totalDespesas)}</p>
+      <p><strong>Saldo Final:</strong> R$ ${FormatDinheiroBr(totalReceitas)}</p>
       <p><strong>Total de Transações:</strong> ${transacoes.length}</p>
       <p style="font-size: 18px; font-weight: bold; text-align: center; margin-top: 20px">${comparacaoMensagem}</p>
     </body></html>`;
@@ -303,7 +304,7 @@ export default function RelatorioGrafico() {
               accessor="value"
               backgroundColor="transparent"
               paddingLeft="15"
-              absolute
+           
             />
           ) : (
             <View
