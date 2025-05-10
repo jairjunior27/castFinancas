@@ -12,7 +12,7 @@ import * as Print from "expo-print";
 import * as Sharing from "expo-sharing";
 import ViewShot, { captureRef } from "react-native-view-shot";
 
-import { styleGrafico } from "./style/styleGrafico";
+import { styleGrafico } from "../style/styleGrafico";
 import { Picker } from "@react-native-picker/picker";
 import { cadastroType } from "@/types/cadastroTypeStorage";
 import { getCadastro } from "@/utils/cadastroStorage";
@@ -233,11 +233,11 @@ export default function RelatorioGrafico() {
 
   return (
     <View style={styleGrafico.container}>
-         <StatusBar
-          translucent
-          backgroundColor="transparent"
-          barStyle="dark-content"
-        />
+      <StatusBar
+        translucent
+        backgroundColor="transparent"
+        barStyle="dark-content"
+      />
       <View style={styleGrafico.containerGrafico}>
         <View style={styleGrafico.titleLogo}>
           <Feather name="trending-up" size={32} color="#40F313" />
@@ -289,7 +289,7 @@ export default function RelatorioGrafico() {
           {dadosGrafico.length > 0 ? (
             <PieChart
               data={dadosGrafico}
-              width={screenWidth * .9}
+              width={screenWidth * 0.9}
               height={Height * 0.3}
               chartConfig={{
                 backgroundColor: "#fff",
@@ -321,7 +321,6 @@ export default function RelatorioGrafico() {
             <Text style={styleGrafico.textoButtom}>Baixar Relatório PDF</Text>
           </TouchableOpacity>
         </View>
-     
       </View>
     </View>
   );

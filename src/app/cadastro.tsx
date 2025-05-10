@@ -1,6 +1,6 @@
 import { Feather } from "@expo/vector-icons";
 import { StatusBar, Text, TextInput, View } from "react-native";
-import { style } from "./(tabs)/style/styleIndexIntro";
+import { style } from "./style/styleIndexIntro";
 import { SignupForm } from "../conponents/signupForm";
 
 export default function Page() {
@@ -14,7 +14,11 @@ export default function Page() {
         </View>
         <SignupForm />
         <TextInput />
-        <StatusBar barStyle="light-content" backgroundColor="trasparent" translucent={true}/>
+        <StatusBar
+          barStyle="light-content"
+          backgroundColor="trasparent"
+          translucent={true}
+        />
       </View>
     </View>
   );

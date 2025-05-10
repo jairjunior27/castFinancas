@@ -3,19 +3,29 @@ import { StyleSheet } from "react-native";
 export const style = StyleSheet.create({
   container: {
     flex: 1,
-    backgroundColor: "#2B2B2B",
+    backgroundColor: "rgb(224, 224, 224)",
+  },
+
+  conteudoHeader:{
+    paddingTop:40,
+    paddingHorizontal: 20,
+    backgroundColor: "rgb(67, 92, 173)",
+    borderBottomLeftRadius: 40,
+    borderBottomRightRadius:40
+
   },
   containerIndex: {
-    marginHorizontal: 20,
-    marginTop: 40,
+    margin: 20,
+    flex:1 
   },
   containerTextoImagem: {
     flexDirection: "row",
     justifyContent: "space-between",
     alignItems: "center",
+    marginVertical:12
   },
   textoContainerImagemTexto: {
-    color: "#fff",
+    color: "rgb(184, 184, 184)",
     fontSize: 12,
   },
   adcionarTransacoes: {
@@ -23,7 +33,7 @@ export const style = StyleSheet.create({
     bottom: 20,
     right: 20,
     zIndex: 1000,
-    backgroundColor: "rgb(245, 241, 5)",
+    backgroundColor: "rgba(0, 47, 255, 0.69)",
     borderRadius: 50,
     padding: 10,
   },
@@ -33,8 +43,10 @@ export const style = StyleSheet.create({
   },
   titleNome: {
     fontSize: 14,
-    color: "rgba(199, 253, 3, 0.89)",
-    marginLeft: 7
+    color: "rgba(248, 248, 248, 0.89)",
+    marginLeft: 7,
+    fontWeight: "bold",
+    maxWidth: 150
   },
 
   titleLogo: {
@@ -43,14 +55,16 @@ export const style = StyleSheet.create({
     justifyContent: "center",
   },
   titleLogo1: {
-    color: "#fff",
+    color: "rgba(221, 221, 221, 0.89)",
     marginLeft: 5,
     fontSize: 30,
+    fontWeight: 500
   },
   titleLogo2: {
-    color: "#EEFF00",
+    color: "rgb(255, 255, 255)",
     marginLeft: 5,
     fontSize: 30,
+    fontWeight: "bold"
   },
   containerImagem: {
     width: 60,
@@ -77,7 +91,7 @@ export const style = StyleSheet.create({
     borderRadius: 50,
   },
   textoTransacao: {
-    color: "#fff",
+    color: "#111",
     fontSize: 14,
     textAlign: "center",
   },

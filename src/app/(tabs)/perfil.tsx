@@ -8,7 +8,7 @@ import {
   View,
   Text,
 } from "react-native";
-import { stylePerfil } from "./style/stylePerfil";
+import { stylePerfil } from "../style/stylePerfil";
 import { Feather } from "@expo/vector-icons";
 import * as ImagePicker from "expo-image-picker";
 import { SignupEditForm } from "@/conponents/signupEdit";
@@ -22,7 +22,7 @@ export default function Page() {
     const getAll = async () => {
       const response = await getCadastro();
       if (response) {
-        usuario.setUser(response);
+        usuario?.setUser(response);
       }
     };
 
@@ -86,7 +86,9 @@ export default function Page() {
         </TouchableOpacity>
       </View>
 
-      <Text style={stylePerfil.name}>{usuario.user.nome}</Text>
+      <Text style={stylePerfil.name} numberOfLines={1} ellipsizeMode="tail">
+        {usuario.user.nome}
+      </Text>
       <Text style={stylePerfil.info}>Idade: {usuario.user.idade} anos</Text>
       <Text style={stylePerfil.info}>Email: {usuario.user.email}</Text>
 
@@ -127,8 +129,6 @@ export default function Page() {
           </View>
         </View>
       </Modal>
-
-     
     </View>
   );
 }

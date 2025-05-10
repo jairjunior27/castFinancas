@@ -41,7 +41,7 @@ export const TransacoesItem = ({
               <Text style={style.label}>{label}</Text>
             </View>
 
-            <Text style={style.title}>{title}</Text>
+            <Text style={style.title} numberOfLines={1} ellipsizeMode="tail">{title}</Text>
           </View>
           <View style={style.textData}>
             <Text

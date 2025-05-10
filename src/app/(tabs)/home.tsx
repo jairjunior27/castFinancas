@@ -7,13 +7,13 @@ import {
   TouchableOpacity,
   StatusBar,
 } from "react-native";
-import { style } from "./style/styleHome";
+import { style } from "../style/styleHome";
 import { useContext, useEffect, useState } from "react";
 import { TiposTransacoes } from "@/helps/typesTransacao";
 import { getCadastro } from "@/utils/cadastroStorage";
 import { Balanco } from "@/conponents/balanco";
 import { Transacoes } from "@/conponents/transacoes";
-import { styleModal } from "./style/styleModal";
+import { styleModal } from "../style/styleModal";
 import { ButtomItem } from "@/conponents/buttom";
 import { Despesas } from "@/conponents/despesas";
 import { Receita } from "@/conponents/receita";
@@ -28,9 +28,9 @@ export default function Page() {
   const data = TiposTransacoes;
   useEffect(() => {
     const loadCadastro = async () => {
-      if (!usuario.user) {
+      if (!usuario?.user) {
         const dados = await getCadastro();
-        usuario.setUser(dados);
+        usuario?.setUser(dados);
       }
     };
     loadCadastro();
@@ -38,18 +38,31 @@ export default function Page() {
 
   return (
     <View style={style.container}>
-      <StatusBar barStyle="light-content" backgroundColor="#000" />
-      <View style={style.containerIndex}>
+      <StatusBar
+        barStyle="light-content"
+        backgroundColor="transparent"
+        translucent
+      />
+      <View style={style.conteudoHeader}>
+        <View style={style.titleLogo}>
+          <Feather name="trending-up" size={32} color="#fff" />
+          <Text style={style.titleLogo1}>Cast</Text>
+          <Text style={style.titleLogo2}>Finanças</Text>
+        </View>
         <View style={style.containerTextoImagem}>
           <View style={style.titleSaudacoes}>
             <Text style={style.textoContainerImagemTexto}>
               Seja bem vindo(a)
             </Text>
-            <Text style={style.titleNome}>
-              {usuario.user && usuario.user.nome}
+            <Text
+              style={style.titleNome}
+              numberOfLines={1}
+              ellipsizeMode="tail"
+            >
+              {usuario?.user && usuario?.user.nome}
             </Text>
           </View>
-          {usuario.user && usuario.user.imagem && (
+          {usuario?.user && usuario?.user.imagem && (
             <View style={style.containerImagem}>
               <Image
                 source={{ uri: usuario.user.imagem }}
@@ -58,11 +71,8 @@ export default function Page() {
             </View>
           )}
         </View>
-        <View style={style.titleLogo}>
-          <Feather name="trending-up" size={32} color="#40F313" />
-          <Text style={style.titleLogo1}>Cast</Text>
-          <Text style={style.titleLogo2}>Finanças</Text>
-        </View>
+      </View>
+      <View style={style.containerIndex}>
         <Balanco />
         <Transacoes />
         <Modal
@@ -107,7 +117,7 @@ export default function Page() {
         onPress={() => setIsModal(true)}
         style={style.adcionarTransacoes}
       >
-        <Feather name="plus" size={22} color="#111" />
+        <Feather name="plus" size={22} color="#fff" />
       </TouchableOpacity>
     </View>
   );

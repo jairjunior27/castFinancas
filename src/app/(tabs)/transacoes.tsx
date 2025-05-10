@@ -10,7 +10,7 @@ import {
   StatusBar,
 } from "react-native";
 import { Calendar } from "react-native-calendars";
-import { styleTransacoes } from "./style/style.transacoes";
+import { styleTransacoes } from "../style/style.transacoes";
 import { Feather } from "@expo/vector-icons";
 import { transacoesType } from "@/types/transacoes";
 import { DespesasHelps } from "@/helps/despesasHelp";
@@ -82,19 +82,19 @@ export default function Page() {
 
   return (
     <View style={styleTransacoes.container}>
-         <StatusBar
-                translucent
-                backgroundColor="transparent"
-                barStyle="light-content"
-              />
+      <StatusBar
+        translucent
+        backgroundColor="transparent"
+        barStyle="light-content"
+      />
       <View style={styleTransacoes.containerIndex}>
         <View style={styleTransacoes.calendario}>
           <Calendar
             headerStyle={{
               borderBottomWidth: 0.5,
               borderBottomColor: "#ffffff",
-              marginBottom: 10,
-              paddingBottom: 10,
+              marginBottom: 5,
+              paddingBottom: 5,
             }}
             onDayPress={(day: any) => setDataSelecionada(day.dateString)}
             onMonthChange={(month: any) => {
@@ -107,11 +107,11 @@ export default function Page() {
             markedDates={datasSelecionadas}
             theme={{
               textMonthFontSize: 18,
-              todayTextColor: "rgb(9, 121, 106)",
+              todayTextColor: "rgb(6, 114, 156)",
               textDayFontWeight: "bold",
               monthTextColor: "rgb(243, 243, 243)",
-              selectedDayBackgroundColor: "rgb(12, 120, 163)",
-              selectedDayTextColor: "rgb(226, 226, 226)",
+              selectedDayBackgroundColor: "rgb(2, 226, 189)",
+              selectedDayTextColor: "rgb(218, 217, 214)",
               calendarBackground: "transparent",
               textDayStyle: { color: "#fff" },
               arrowStyle: {

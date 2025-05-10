@@ -1,18 +1,18 @@
-import { StyleSheet, Platform } from "react-native";
+import { StyleSheet } from "react-native";
 
 export const style = StyleSheet.create({
   container: {
-    backgroundColor: "#ffffff",
+    backgroundColor: "rgb(253, 253, 253)",
     borderRadius: 16,
     padding: 20,
-    marginVertical: 40,
+    marginVertical: 20,
     // Sombra iOS
     shadowColor: "#000",
     shadowOffset: { width: 0, height: 2 },
     shadowOpacity: 0.1,
     shadowRadius: 4,
     // Sombra Android
-    elevation: 4,
+    elevation: 12,
   },
   entradasSaidas: {
     flexDirection: "row",
@@ -45,6 +45,6 @@ export const style = StyleSheet.create({
     fontWeight: "600",
     fontSize: 18,
     color: "#2C3E50",
-    marginBottom: 4,
+    marginBottom: 1,
   },
 });

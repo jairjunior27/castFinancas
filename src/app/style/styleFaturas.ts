@@ -3,10 +3,10 @@ const { height } = Dimensions.get("window");
 export const styleFaturas = StyleSheet.create({
   container: {
     flex: 1,
-    backgroundColor: "#2B2B2B",
+    backgroundColor: "rgb(54, 54, 54)",
+    padding: 20
   },
   containerFaturas:{
-    margin: 20
   },
 
   containerTextoImagem: {
@@ -24,7 +24,8 @@ export const styleFaturas = StyleSheet.create({
   titleNome: {
     fontSize: 14,
     color: "rgba(199, 253, 3, 0.89)",
-    marginLeft: 7
+    marginLeft: 7,
+    maxWidth: 250
   },
   titleLogo: {
     flexDirection: "row",
@@ -41,6 +42,13 @@ export const styleFaturas = StyleSheet.create({
     color: "#EEFF00",
     marginLeft: 5,
     fontSize: 30,
+  },
+
+  TextoFaturasAvencer:{
+   textAlign: "center",
+   fontSize: 20,
+   color: "#ccc",
+   marginBottom: 20
   },
 
 

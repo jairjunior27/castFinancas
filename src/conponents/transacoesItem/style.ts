@@ -2,7 +2,7 @@ import { StyleSheet } from "react-native";
 
 export const style = StyleSheet.create({
   container: {
-    backgroundColor: "rgba(129, 129, 129, 0.19)",
+    backgroundColor: "rgb(255, 255, 255)",
     marginVertical: 10,
     borderRadius: 10,
     padding: 10,
@@ -31,18 +31,19 @@ export const style = StyleSheet.create({
   },
 
   icon: {
-    backgroundColor: "rgb(240, 238, 238)",
+    backgroundColor: "rgba(77, 77, 77, 0.14)",
     padding: 8,
     borderRadius: 50,
   },
   label: {
     fontSize: 11,
-    color: "rgb(155, 155, 155)",
+    color: "rgb(12, 12, 12)",
   },
 
   title: {
     fontSize: 14,
-    color: "rgb(218, 218, 218)",
+    color: "rgb(46, 34, 34)",
+    maxWidth: 140
   },
   textData: {
     color: "rgb(206, 70, 70)",
@@ -55,8 +56,9 @@ export const style = StyleSheet.create({
     color: "rgb(8, 185, 67)",
   },
   dataDespesas: {
-    color: "rgb(212, 211, 211)",
+    color: "rgb(51, 49, 49)",
     fontSize: 10,
+    fontWeight: "bold"
   },
 
   edite: {

@@ -2,11 +2,13 @@ import { StyleSheet, Dimensions } from "react-native";
 const { height } = Dimensions.get("window");
 export const style = StyleSheet.create({
   container: {
-    minHeight: 200,
-    height: height * 0.5,
+   maxHeight: height * .4,
+   marginBottom: 20
+
   },
   textoTrnsacoes: {
-    color: "#fff",
+    color: "#111",
     fontWeight: "500",
+    marginBottom:10
   },
 });

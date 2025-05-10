@@ -47,7 +47,7 @@ export const Receita = () => {
       tipo,
     };
     try {
-      await transacao.adicionarTransacao(novaTransacao);
+      await transacao?.adicionarTransacao(novaTransacao);
       setTitle("");
       setValor("");
       setSelected(null);

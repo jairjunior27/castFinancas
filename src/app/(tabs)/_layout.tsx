@@ -8,13 +8,7 @@ import { UserProvider } from "@/globalContext/usuario/provider";
 import { SQLiteProvider } from "expo-sqlite";
 import { inicializeDataBase } from "@/utils/dataBase/inicializeBancoDados";
 
-Notifications.setNotificationHandler({
-  handleNotification: async () => ({
-    shouldShowAlert: true,
-    shouldPlaySound: false,
-    shouldSetBadge: false,
-  }),
-});
+
 export default function Layout() {
   useEffect(() => {
     const requestPermissions = async () => {

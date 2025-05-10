@@ -37,7 +37,11 @@ export const SignupEditForm = () => {
   const [imagem, setImagem] = useState<string | null>(null);
   const [msg, setMensagem] = useState("");
   const router = useRouter();
-  const { user, setUser } = useContext(ContextUser); // ⬅️ pega o usuário do contexto
+  const context = useContext(ContextUser);
+  if (!context) {
+    return <Text>Usuário não encontrado!</Text>;
+  }
+  const {user,setUser}  = context 
 
   useEffect(() => {
     const time = setTimeout(() => {

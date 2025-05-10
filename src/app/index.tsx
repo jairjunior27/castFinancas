@@ -1,7 +1,7 @@
 import { useRouter } from "expo-router";
 import { useEffect, useRef } from "react";
 import { Animated, Image, StatusBar, Text, View } from "react-native";
-import { style } from "./(tabs)/style/styleIndexIntro";
+import { style } from "./style/styleIndexIntro";
 import { Feather } from "@expo/vector-icons";
 import AsyncStorage from "@react-native-async-storage/async-storage";
 
@@ -17,11 +17,11 @@ export default function Page() {
         const userData = await AsyncStorage.getItem("cadastro");
         setTimeout(() => {
           if (userData) {
-            router.replace("/(tabs)/home"); 
+            router.replace("/(tabs)/home");
           } else {
-            router.replace("/cadastro"); 
+            router.replace("/cadastro");
           }
-        }, 3000); 
+        }, 3000);
       } catch (error) {
         console.error("Erro ao verificar usuário:", error);
       }

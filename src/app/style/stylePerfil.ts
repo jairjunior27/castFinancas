@@ -54,7 +54,8 @@ export const stylePerfil = StyleSheet.create({
     fontSize: 22,
     fontWeight: "bold",
     marginBottom: 4,
-    color: "rgb(26, 197, 240)",
+    color: "rgb(145, 167, 48)",
+    maxWidth: 300
   },
 
   info: {
