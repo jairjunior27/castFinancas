@@ -13,6 +13,7 @@ import * as Notifications from "expo-notifications";
 import { styleFatura } from "./style";
 import { Feather } from "@expo/vector-icons";
 import { useTransacoesDataBase } from "@/utils/dataBase/bancoSqlTransacao";
+import { formatarMoeda } from "@/helps/formatValor";
 
 export const Fatura = () => {
   const [titulo, setTitulo] = useState<string>("");
@@ -92,7 +93,10 @@ export const Fatura = () => {
     setIsDate(false);
   };
   
-  
+  const handleChange = (text: string) =>{
+   const formatado = formatarMoeda(text)
+   setValor(formatado)
+  }
   return (
     <View>
       <TextInput
@@ -104,7 +108,7 @@ export const Fatura = () => {
       />
       <TextInput
         value={valor}
-        onChangeText={setValor}
+        onChangeText={handleChange}
         style={styleFatura.input}
         placeholder="Digite o valor da fatura"
         placeholderTextColor="#aaa"

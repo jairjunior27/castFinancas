@@ -74,6 +74,7 @@ export default function RelatorioGrafico() {
     );
 
     const dados = Object.keys(resumo).map((label, index) => ({
+      
       name: label,
       value: resumo[label],
       color: index % 2 === 0 ? "#2E8B57" : "#FF4500",

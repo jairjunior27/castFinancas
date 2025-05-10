@@ -14,6 +14,7 @@ import { useContext, useState } from "react";
 import { Feather } from "@expo/vector-icons";
 import { DespesasHelps } from "@/helps/despesasHelp";
 import { ContextTransacao } from "@/globalContext/transacoes/context";
+import { formatarMoeda } from "@/helps/formatValor";
 
 export const Despesas = () => {
   const dataDespesas = DespesasHelps;
@@ -59,6 +60,11 @@ export const Despesas = () => {
       console.error("Erro ao salvar transação:", e);
     }
   };
+
+  const handleChange = (text: string) => {
+    const formatado = formatarMoeda(text);
+    setValor(formatado);
+  };
   return (
     <View>
       <ScrollView horizontal={true} showsHorizontalScrollIndicator={false}>
@@ -85,10 +91,7 @@ export const Despesas = () => {
           style={style.input}
           placeholder="Digite o valor R$"
           keyboardType="numeric"
-          onChangeText={(text) => {
-            const numeric = text.replace(/[^0-9.]/g, "");
-            setValor(numeric);
-          }}
+          onChangeText={handleChange}
           value={valor}
         />
         <TouchableOpacity

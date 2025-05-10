@@ -13,13 +13,14 @@ import DateTimePicker from "@react-native-community/datetimepicker";
 import { Feather } from "@expo/vector-icons";
 import { ReceitasHelps } from "@/helps/receitasHelps";
 import { ContextTransacao } from "@/globalContext/transacoes/context";
+import { formatarMoeda } from "@/helps/formatValor";
 export const Receita = () => {
   const [selected, setSelected] = useState<number | null>(null);
   const [showPicker, setShowPicker] = useState(false);
   const [date, setDate] = useState(new Date());
   const [title, setTitle] = useState("");
   const [valor, setValor] = useState("");
-  const [isdate,setIsDate] = useState(false)
+  const [isdate, setIsDate] = useState(false);
 
   const iconReceitas = ReceitasHelps;
   const tipo: "Entrada" | "Saida" = "Entrada";
@@ -28,7 +29,7 @@ export const Receita = () => {
     setShowPicker(Platform.OS === "ios");
     if (SelectedDate) {
       setDate(SelectedDate);
-      setIsDate(true)
+      setIsDate(true);
     }
   };
 
@@ -57,7 +58,11 @@ export const Receita = () => {
     }
   };
 
-  
+  const handleChange = (text: string) => {
+    const formatado = formatarMoeda(text);
+    setValor(formatado);
+  };
+
   return (
     <View>
       <ScrollView horizontal={true} showsHorizontalScrollIndicator={false}>
@@ -85,10 +90,7 @@ export const Receita = () => {
           style={style.input}
           placeholder="Digite o valor R$"
           keyboardType="numeric"
-          onChangeText={(text) => {
-            const numeric = text.replace(/[^0-9.]/g, "");
-            setValor(numeric);
-          }}
+          onChangeText={handleChange}
           value={valor}
         />
         <TouchableOpacity
@@ -97,7 +99,7 @@ export const Receita = () => {
         >
           <Feather name="calendar" size={24} color="#fff" />
           <Text style={style.textInputData}>
-           {!isdate ? "Adicione a data" : date.toLocaleDateString()}
+            {!isdate ? "Adicione a data" : date.toLocaleDateString()}
           </Text>
         </TouchableOpacity>
         {showPicker && (
@@ -107,7 +109,6 @@ export const Receita = () => {
             display="default"
             onChange={handleDateChange}
           />
-          
         )}
         <TouchableOpacity style={style.buttom} onPress={salvarTransacao}>
           <Text style={style.textButtom}>Enviar</Text>

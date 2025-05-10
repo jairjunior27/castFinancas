@@ -9,7 +9,7 @@ export const style = StyleSheet.create({
   conteudoHeader:{
     paddingTop:40,
     paddingHorizontal: 20,
-    backgroundColor: "rgb(67, 92, 173)",
+    backgroundColor: "rgb(15, 61, 211)",
     borderBottomLeftRadius: 40,
     borderBottomRightRadius:40
 
@@ -22,7 +22,8 @@ export const style = StyleSheet.create({
     flexDirection: "row",
     justifyContent: "space-between",
     alignItems: "center",
-    marginVertical:12
+    marginTop:12,
+    marginBottom: 20
   },
   textoContainerImagemTexto: {
     color: "rgb(184, 184, 184)",
