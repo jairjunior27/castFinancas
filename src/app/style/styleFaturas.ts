@@ -29,7 +29,6 @@ export const styleFaturas = StyleSheet.create({
     flexDirection: "row",
     alignItems: "center",
     justifyContent: "center",
- 
   },
   titleLogo1: {
     color: "rgba(221, 221, 221, 0.89)",
@@ -58,20 +57,26 @@ export const styleFaturas = StyleSheet.create({
     flexDirection: "row",
     justifyContent: "space-between",
     alignItems: "center",
-    marginTop:12,
-    marginBottom: 20
+    marginTop: 12,
+    marginBottom: 20,
   },
   textoContainerImagemTexto: {
     color: "rgba(206, 200, 200, 0.84)",
     fontSize: 12,
-    
   },
   containerFaturasAvencer: {
-    padding: 20
+    padding: 20,
   },
   TextoFaturasAvencer: {
-    textAlign:"center",
+    textAlign: "center",
     fontSize: 14,
-    fontWeight: "700"
+    fontWeight: "700",
+    color: "rgb(145, 143, 143)",
+  },
+  TextoTotalFaturas: {
+    textAlign: "right",
+    fontSize: 14,
+    fontWeight: "700",
+    marginBottom: 10,
   },
 });

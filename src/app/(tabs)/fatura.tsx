@@ -96,6 +96,7 @@ export default function Page() {
             </View>
 
         <View style={styleFaturas.containerFaturasAvencer}>
+          <Text style={styleFaturas.TextoTotalFaturas}>Total  de Faturas: {dadosFatura.length}</Text>
           <Text style={styleFaturas.TextoFaturasAvencer}>Faturas a Vencer</Text>
           <FlatList
             data={dadosFatura}

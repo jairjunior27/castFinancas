@@ -22,12 +22,14 @@ export const Receita = () => {
   const [valor, setValor] = useState("");
   const [isdate, setIsDate] = useState(false);
   const [msg, setMsg] = useState("");
+  const [disable, setDisable] = useState<boolean>(false);
 
   useEffect(() => {
     if (msg !== "") {
       const time = setTimeout(() => {
         setMsg("");
         transacao?.setIsModal(false);
+        setDisable(false);
       }, 3000);
       return () => clearTimeout(time);
     }
@@ -68,6 +70,7 @@ export const Receita = () => {
       setValor("");
       setSelected(null);
       setMsg("Transação salva com sucesso !");
+      setDisable(true);
     } catch (e) {
       console.error("Erro ao salvar transação:", e);
     }
@@ -109,8 +112,9 @@ export const Receita = () => {
           value={valor}
         />
         <TouchableOpacity
-          style={style.inputData}
+          style={[style.inputData, disable && {backgroundColor: "#ccc", opacity: .4}]}
           onPress={() => setShowPicker(true)}
+          disabled={disable}
         >
           <Feather name="calendar" size={24} color="#fff" />
           <Text style={style.textInputData}>
@@ -126,7 +130,14 @@ export const Receita = () => {
           />
         )}
         {msg && <Text style={style.textoMsg}>{msg}</Text>}
-        <TouchableOpacity style={style.buttom} onPress={salvarTransacao}>
+        <TouchableOpacity
+          style={[
+            style.buttom,
+            disable && { backgroundColor: "#ccc", opacity: 0.4 },
+          ]}
+          onPress={salvarTransacao}
+          disabled={disable}
+        >
           <Text style={style.textButtom}>Enviar</Text>
         </TouchableOpacity>
       </View>

@@ -23,14 +23,16 @@ export const Fatura = () => {
   const [dataVencimento, setDataVencimento] = useState(new Date());
   const [mostrarDatePicker, setMostrarDatePicker] = useState(false);
   const [isDate, setIsDate] = useState(false);
-  const { adcionarFatura, getAllFatura } = useTransacoesDataBase();
+  const { adcionarFatura } = useTransacoesDataBase();
   const [msg, setMsg] = useState("");
+  const [disable,setDisable] = useState<boolean>(false)
   const transacao = useContext(ContextTransacao);
   useEffect(() => {
     if (msg !== "") {
       const time = setTimeout(() => {
         setMsg("");
         transacao?.setIsModal(false);
+        setDisable(false)
       }, 3000);
       return () => clearTimeout(time);
     }
@@ -105,7 +107,7 @@ export const Fatura = () => {
     }
     await adcionarFatura(novaFatura);
     setMsg("Fatura salva e notificações agendadas!");
-
+    setDisable(true)
     setTitulo("");
     setValor("");
     setDataVencimento(new Date());
@@ -135,7 +137,8 @@ export const Fatura = () => {
       />
       <TouchableOpacity
         onPress={() => setMostrarDatePicker(true)}
-        style={styleFatura.buttonData}
+        style={[styleFatura.buttonData, disable && {backgroundColor: "#ccc", opacity: .4}]}
+        disabled={disable}
       >
         <Feather name="calendar" size={24} color="#fff" />
         <Text style={styleFatura.textoButtom}>
@@ -156,7 +159,8 @@ export const Fatura = () => {
         />
       )}
       {msg && <Text style={styleFatura.textoMsg}>{msg}</Text>}
-      <TouchableOpacity style={styleFatura.button} onPress={handleSalvar}>
+      <TouchableOpacity style={[styleFatura.button, disable && {backgroundColor: "#ccc", opacity: .4}]} onPress={handleSalvar} 
+      disabled={disable}>
         <Text style={styleFatura.textoButtom}>Salvar Fatura</Text>
       </TouchableOpacity>
     </View>
