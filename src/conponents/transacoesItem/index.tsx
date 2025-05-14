@@ -58,7 +58,7 @@ export const TransacoesItem = ({
               <Feather
                 name="edit"
                 size={20}
-                color="rgba(218, 218, 218, 0.9)"
+                color="rgba(45, 83, 187, 0.9)"
                 style={style.edite}
               />
             </TouchableOpacity>

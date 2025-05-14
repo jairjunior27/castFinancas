@@ -60,7 +60,7 @@ export default function Page() {
         dotColor: "rgb(252, 164, 1)",
         selected: dataSelecionada === dataFormatada,
         selectedColor:
-          dataSelecionada === dataFormatada ? "rgb(12, 120, 163)" : undefined,
+          dataSelecionada === dataFormatada ? "rgb(24, 110, 160)" : undefined,
       };
     }
     return acc;
@@ -85,16 +85,16 @@ export default function Page() {
       <StatusBar
         translucent
         backgroundColor="transparent"
-        barStyle="light-content"
+        barStyle="dark-content"
       />
       <View style={styleTransacoes.containerIndex}>
         <View style={styleTransacoes.calendario}>
           <Calendar
             headerStyle={{
               borderBottomWidth: 0.5,
-              borderBottomColor: "#ffffff",
-              marginBottom: 5,
-              paddingBottom: 5,
+              borderBottomColor: "rgba(0,0,0,.5)",
+            
+             
             }}
             onDayPress={(day: any) => setDataSelecionada(day.dateString)}
             onMonthChange={(month: any) => {
@@ -107,22 +107,23 @@ export default function Page() {
             markedDates={datasSelecionadas}
             theme={{
               textMonthFontSize: 18,
-              todayTextColor: "rgb(6, 114, 156)",
+              todayTextColor: "rgb(10, 22, 196)",
               textDayFontWeight: "bold",
-              monthTextColor: "rgb(243, 243, 243)",
-              selectedDayBackgroundColor: "rgb(2, 226, 189)",
-              selectedDayTextColor: "rgb(218, 217, 214)",
+              monthTextColor: "rgb(20, 20, 20)",
+              selectedDayBackgroundColor: "rgb(226, 174, 2)",
+              selectedDayTextColor: "rgb(231, 243, 229)",
               calendarBackground: "transparent",
-              textDayStyle: { color: "#fff" },
+              textDayStyle: { color: "#111" },
               arrowStyle: {
                 margin: 0,
                 padding: 0,
-                backgroundColor: "#fff",
               },
+              textSectionTitleColor: "rgb(37, 37, 37)",
+
             }}
           />
         </View>
-
+       <Text style={styleTransacoes.textoTransacao}>Transações</Text>
         <View style={styleTransacoes.containerTransacoes}>
           <FlatList
             contentContainerStyle={{ paddingBottom: 60 }}

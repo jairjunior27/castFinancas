@@ -47,7 +47,7 @@ export const style = StyleSheet.create({
     color: "rgba(248, 248, 248, 0.89)",
     marginLeft: 7,
     fontWeight: "bold",
-    maxWidth: 150
+    maxWidth: 130
   },
 
   titleLogo: {

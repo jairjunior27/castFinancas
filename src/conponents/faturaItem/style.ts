@@ -5,18 +5,18 @@ export const style = StyleSheet.create({
     flexDirection: "row",
     alignItems:"center",
     justifyContent: "space-between",
-    backgroundColor: "rgb(255, 253, 253)",
     paddingVertical: 6,
     paddingHorizontal:10,
     borderRadius: 8,
-    marginBottom: 20
+    marginVertical: 10,
+
   },
   iconTexto: {
     flexDirection: "row",
     alignItems: "center"
   },
   valorVencimento: {
-   alignItems: "flex-end",
+   alignItems: "center",
   },
   titulo:{
     marginHorizontal: 10,

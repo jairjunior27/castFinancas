@@ -63,32 +63,39 @@ export default function Page() {
 
   return (
     <View style={styleFaturas.container}>
-      <View style={styleFaturas.titleLogo}>
-        <Feather name="trending-up" size={32} color="#40F313" />
-        <Text style={styleFaturas.titleLogo1}>Cast</Text>
-        <Text style={styleFaturas.titleLogo2}>Finanças</Text>
-      </View>
-      <View style={styleFaturas.containerFaturas}>
-        <View style={styleFaturas.containerTextoImagem}>
-          <View style={styleFaturas.titleSaudacoes}>
-            <Text style={styleFaturas.textoContainerImagemTexto}>
-              Seja bem vindo(a)
-            </Text>
-            <Text style={styleFaturas.titleNome} numberOfLines={1}>
-              {usuario?.user && usuario?.user.nome}
-            </Text>
-          </View>
-          {usuario?.user && usuario?.user.imagem && (
-            <View style={styleFaturas.containerImagem}>
-              <Image
-                source={{ uri: usuario?.user.imagem }}
-                style={styleFaturas.imagem}
-              />
+   
+  
+         <View style={styleFaturas.conteudoHeader}>
+              <View style={styleFaturas.titleLogo}>
+                <Feather name="trending-up" size={32} color="#fff" />
+                <Text style={styleFaturas.titleLogo1}>Cast</Text>
+                <Text style={styleFaturas.titleLogo2}>Finanças</Text>
+              </View>
+              <View style={styleFaturas.containerTextoImagem}>
+                <View style={styleFaturas.titleSaudacoes}>
+                  <Text style={styleFaturas.textoContainerImagemTexto}>
+                    Seja bem vindo(a)
+                  </Text>
+                  <Text
+                    style={styleFaturas.titleNome}
+                    numberOfLines={1}
+                    ellipsizeMode="tail"
+                  >
+                    {usuario?.user && usuario?.user.nome}
+                  </Text>
+                </View>
+                {usuario?.user && usuario?.user.imagem && (
+                  <View style={styleFaturas.containerImagem}>
+                    <Image
+                      source={{ uri: usuario.user.imagem }}
+                      style={styleFaturas.imagem}
+                    />
+                  </View>
+                )}
+              </View>
             </View>
-          )}
-        </View>
 
-        <View>
+        <View style={styleFaturas.containerFaturasAvencer}>
           <Text style={styleFaturas.TextoFaturasAvencer}>Faturas a Vencer</Text>
           <FlatList
             data={dadosFatura}
@@ -99,6 +106,6 @@ export default function Page() {
           />
         </View>
       </View>
-    </View>
+
   );
 }

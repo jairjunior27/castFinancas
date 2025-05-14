@@ -2,17 +2,19 @@ import { StyleSheet } from "react-native";
 
 export const style = StyleSheet.create({
   container: {
-    backgroundColor: "rgb(255, 255, 255)",
     marginVertical: 10,
     borderRadius: 10,
     padding: 10,
+    borderBottomWidth: 2,
+    borderColor: "#ccc",
+    borderStyle: "dashed",
   },
 
   container1: {
     alignItems: "center",
     flexDirection: "row",
     justifyContent: "space-between",
-    textAlign: "center"
+    textAlign: "center",
   },
 
   container2: {
@@ -31,8 +33,6 @@ export const style = StyleSheet.create({
   },
 
   icon: {
-    backgroundColor: "rgba(77, 77, 77, 0.14)",
-    padding: 8,
     borderRadius: 50,
   },
   label: {
@@ -43,7 +43,7 @@ export const style = StyleSheet.create({
   title: {
     fontSize: 14,
     color: "rgb(46, 34, 34)",
-    maxWidth: 140
+    maxWidth: 140,
   },
   textData: {
     color: "rgb(206, 70, 70)",
@@ -58,12 +58,10 @@ export const style = StyleSheet.create({
   dataDespesas: {
     color: "rgb(51, 49, 49)",
     fontSize: 10,
-    fontWeight: "bold"
+    fontWeight: "bold",
   },
 
   edite: {
     marginRight: 24,
   },
-
-  
 });

@@ -33,7 +33,7 @@ export default function Layout() {
             tabBarStyle: { backgroundColor: "rgba(3, 3, 3, 0.69)" },
             tabBarActiveBackgroundColor: "rgba(0, 0, 0, 0.41)",
             tabBarInactiveTintColor: "#ccc",
-            tabBarActiveTintColor: "#EEFF00",
+            tabBarActiveTintColor: "#fff",
           }}
         >
           <Tabs.Screen

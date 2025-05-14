@@ -3,7 +3,7 @@ const { height } = Dimensions.get("window");
 export const styleTransacoes = StyleSheet.create({
   container: {
     flex: 1,
-    backgroundColor: "#2B2B2B",
+    backgroundColor: "rgba(247, 244, 244, 0.99)",
   },
   input: {
     width: "100%",
@@ -40,11 +40,11 @@ export const styleTransacoes = StyleSheet.create({
     height: height * 0.5,
   },
   containerIndex: {
-    margin: 20,
+   margin: 10
   },
 
   calendario: {
-    marginTop: 30,
+    marginTop: 20,
   },
 
   headerModal: {
@@ -64,7 +64,13 @@ export const styleTransacoes = StyleSheet.create({
     textAlign: "center",
     flex: 1,
   },
-
+  textoTransacao:{
+    color: "rgba(0, 0, 0, 0.89)",
+    textAlign: "center",
+    fontSize: 20,
+    fontWeight: "bold",
+    marginBottom: 10
+  },
   button: {
     backgroundColor: "rgba(199, 253, 3, 0.89)",
     justifyContent: "center",

@@ -3,64 +3,75 @@ const { height } = Dimensions.get("window");
 export const styleFaturas = StyleSheet.create({
   container: {
     flex: 1,
-    backgroundColor: "rgb(54, 54, 54)",
-    padding: 20
+    backgroundColor: "rgb(235, 235, 235)",
   },
-  containerFaturas:{
+
+  conteudoHeader: {
+    paddingTop: 40,
+    paddingHorizontal: 20,
+    backgroundColor: "rgb(15, 61, 211)",
+    borderBottomLeftRadius: 40,
+    borderBottomRightRadius: 40,
+  },
+
+  titleSaudacoes: {
+    flexDirection: "row",
+  },
+  titleNome: {
+    fontSize: 14,
+    color: "rgba(248, 248, 248, 0.89)",
+    marginLeft: 7,
+    fontWeight: "bold",
+    maxWidth: 130,
+  },
+
+  titleLogo: {
+    flexDirection: "row",
+    alignItems: "center",
+    justifyContent: "center",
+ 
+  },
+  titleLogo1: {
+    color: "rgba(221, 221, 221, 0.89)",
+    marginLeft: 5,
+    fontSize: 30,
+    fontWeight: 500,
+  },
+  titleLogo2: {
+    color: "rgb(255, 255, 255)",
+    marginLeft: 5,
+    fontSize: 30,
+    fontWeight: "bold",
+  },
+  containerImagem: {
+    width: 60,
+    height: 60,
+  },
+  imagem: {
+    width: "100%",
+    height: "100%",
+    resizeMode: "contain",
+    borderRadius: 50,
   },
 
   containerTextoImagem: {
     flexDirection: "row",
     justifyContent: "space-between",
     alignItems: "center",
+    marginTop:12,
+    marginBottom: 20
   },
   textoContainerImagemTexto: {
-    color: "#fff",
+    color: "rgba(206, 200, 200, 0.84)",
     fontSize: 12,
+    
   },
-  titleSaudacoes: {
-    flexDirection: "row",
+  containerFaturasAvencer: {
+    padding: 20
   },
-  titleNome: {
+  TextoFaturasAvencer: {
+    textAlign:"center",
     fontSize: 14,
-    color: "rgba(199, 253, 3, 0.89)",
-    marginLeft: 7,
-    maxWidth: 250
+    fontWeight: "700"
   },
-  titleLogo: {
-    flexDirection: "row",
-    alignItems: "center",
-    justifyContent: "center",
-    marginVertical: 20,
-  },
-  titleLogo1: {
-    color: "#fff",
-    marginLeft: 5,
-    fontSize: 30,
-  },
-  titleLogo2: {
-    color: "#EEFF00",
-    marginLeft: 5,
-    fontSize: 30,
-  },
-
-  TextoFaturasAvencer:{
-   textAlign: "center",
-   fontSize: 20,
-   color: "#ccc",
-   marginBottom: 20
-  },
-
-
-containerImagem: {
-  width: 60,
-  height: 60,
-},
-imagem: {
-  width: "100%",
-  height: "100%",
-  resizeMode: "contain",
-  borderRadius: 50,
-},
-
 });
