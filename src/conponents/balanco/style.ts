@@ -1,11 +1,11 @@
 import { StyleSheet } from "react-native";
-
 export const style = StyleSheet.create({
   container: {
     backgroundColor: "rgb(253, 253, 253)",
     borderRadius: 16,
     padding: 20,
-    marginVertical: 20,
+    marginBottom: 10,
+    marginTop: -100,
     // Sombra iOS
     shadowColor: "#000",
     shadowOffset: { width: 0, height: 2 },

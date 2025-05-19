@@ -67,9 +67,9 @@ export const styleTransacoes = StyleSheet.create({
   textoTransacao:{
     color: "rgba(0, 0, 0, 0.89)",
     textAlign: "center",
-    fontSize: 20,
+    fontSize: 16,
     fontWeight: "bold",
-    marginBottom: 10
+    marginTop: 10
   },
   button: {
     backgroundColor: "rgba(199, 253, 3, 0.89)",

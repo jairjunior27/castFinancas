@@ -5,8 +5,7 @@ export const styleGrafico = StyleSheet.create({
   container: {
     flex: 1,
     backgroundColor: "rgb(255, 255, 255)",
-    justifyContent: "center",
-    alignItems: "center",
+   
   },
 
   containerGrafico: {
@@ -24,8 +23,7 @@ export const styleGrafico = StyleSheet.create({
     flexDirection: "row",
     alignItems: "center",
     justifyContent: "center",
-    marginTop: 40,
-    marginBottom: 70,
+   marginVertical: 20
   },
   titleLogo1: {
     color: "rgb(112, 112, 112)",
@@ -40,22 +38,26 @@ export const styleGrafico = StyleSheet.create({
   Picker: {
     width: width * 0.4,
     alignItems: "center",
-    backgroundColor: "rgb(33, 134, 173)",
+    justifyContent: "center",
+    backgroundColor: "rgba(116, 150, 140, 0.99)",
     borderWidth: Platform.OS === "android" ? 1 : 0,
     borderColor: "#ddd",
     color: "#fff",
     marginHorizontal: 10,
+    borderRadius: 10
   },
   pickerText: {
-   
+   backgroundColor: "rgba(116, 150, 140, 0.99)",
     fontSize: 14,
-    color: "#111",
+    color: "#fff",
+   
    
   },
 
   data: {
     flexDirection: "row",
-     justifyContent: "space-between"
+     justifyContent: "space-between",
+     alignItems: "center"
   },
 
   textoButtom: {
@@ -63,7 +65,7 @@ export const styleGrafico = StyleSheet.create({
   },
 
   button: {
-    backgroundColor: "rgb(33, 134, 173)",
+    backgroundColor: "rgba(116, 150, 140, 0.99)",
     justifyContent: "center",
     alignItems: "center",
     padding: 10,

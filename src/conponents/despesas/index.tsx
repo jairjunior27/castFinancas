@@ -26,7 +26,7 @@ export const Despesas = () => {
   const [msg, setMsg] = useState("");
   const [isDate, setIsDate] = useState(false);
   const tipo: "Entrada" | "Saida" = "Saida";
-  const [disable,setDisable] = useState<boolean>(false)
+  const [disable, setDisable] = useState<boolean>(false);
   const transacao = useContext(ContextTransacao);
 
   useEffect(() => {
@@ -34,7 +34,7 @@ export const Despesas = () => {
       const time = setTimeout(() => {
         setMsg("");
         transacao?.setIsModal(false);
-        setDisable(false)
+        setDisable(false);
       }, 3000);
       return () => clearTimeout(time);
     }
@@ -74,7 +74,7 @@ export const Despesas = () => {
       setValor("");
       setSelected(null);
       setMsg("Transação salva com sucesso !");
-      setDisable(true)
+      setDisable(true);
     } catch (e) {
       console.error("Erro ao salvar transação:", e);
     }
@@ -103,18 +103,23 @@ export const Despesas = () => {
         <TextInput
           style={style.input}
           placeholder="Digite o nome da despesa"
+          placeholderTextColor="#888"
           value={title}
           onChangeText={(e) => setTitle(e)}
         />
         <TextInput
           style={style.input}
           placeholder="Digite o valor R$"
+          placeholderTextColor="#888"
           keyboardType="numeric"
           onChangeText={handleChange}
           value={valor}
         />
         <TouchableOpacity
-          style={[style.inputData, disable && {backgroundColor: "#ccc", opacity: .4}]}
+          style={[
+            style.inputData,
+            disable && { backgroundColor: "#ccc", opacity: 0.4 },
+          ]}
           onPress={() => setShowPicker(true)}
           disabled={disable}
         >
@@ -132,10 +137,14 @@ export const Despesas = () => {
           />
         )}
         {msg && <Text style={style.textoMsg}>{msg}</Text>}
-        <TouchableOpacity style={[style.buttom, disable && {backgroundColor: "#ccc", opacity: .4}]}
-         onPress={salvarTransacao}
-         disabled={disable}
-         >
+        <TouchableOpacity
+          style={[
+            style.buttom,
+            disable && { backgroundColor: "#ccc", opacity: 0.4 },
+          ]}
+          onPress={salvarTransacao}
+          disabled={disable}
+        >
           <Text style={style.textButtom}>Enviar</Text>
         </TouchableOpacity>
       </View>

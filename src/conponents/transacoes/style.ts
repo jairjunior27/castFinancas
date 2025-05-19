@@ -9,6 +9,7 @@ export const style = StyleSheet.create({
   textoTrnsacoes: {
     color: "#111",
     fontWeight: "500",
-    marginBottom:10
+    marginVertical:10,
+    textAlign:"center"
   },
 });

@@ -57,7 +57,7 @@ if (!transacoes) {
         <View style={style.containerTextoImagem}>
           <View style={style.titleSaudacoes}>
             <Text style={style.textoContainerImagemTexto}>
-              Seja bem vindo(a)
+              Bem vindo(a)
             </Text>
             <Text
               style={style.titleNome}

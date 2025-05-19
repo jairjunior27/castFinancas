@@ -1,5 +1,5 @@
-import { StyleSheet } from "react-native";
-
+import { StyleSheet,Dimensions } from "react-native";
+const {height: screenHeigth} = Dimensions.get("window")
 export const style = StyleSheet.create({
   container: {
     flex: 1,
@@ -9,7 +9,8 @@ export const style = StyleSheet.create({
   conteudoHeader:{
     paddingTop:40,
     paddingHorizontal: 20,
-    backgroundColor: "rgb(15, 61, 211)",
+     height: screenHeigth * 0.36,
+    backgroundColor: "rgba(0, 16, 109, 0.6)",
     borderBottomLeftRadius: 40,
     borderBottomRightRadius:40
 

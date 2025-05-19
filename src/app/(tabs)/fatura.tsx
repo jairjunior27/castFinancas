@@ -1,7 +1,7 @@
 import { ContextUser } from "@/globalContext/usuario/context";
 import { getCadastro } from "@/utils/cadastroStorage";
 import { useCallback, useContext, useEffect, useState } from "react";
-import { FlatList, Image, Text, View } from "react-native";
+import { FlatList, Image, StatusBar, Text, View } from "react-native";
 import { styleFaturas } from "../style/styleFaturas";
 import { Feather } from "@expo/vector-icons";
 import { useTransacoesDataBase } from "@/utils/dataBase/bancoSqlTransacao";
@@ -23,10 +23,11 @@ export default function Page() {
     getAll();
   }, []);
 
-  useFocusEffect( 
+  useFocusEffect(
     useCallback(() => {
-    loadFaturas()
-  },[]) )
+      loadFaturas();
+    }, [])
+  );
 
   const loadFaturas = async () => {
     const dados = await getAllFatura();
@@ -63,50 +64,55 @@ export default function Page() {
 
   return (
     <View style={styleFaturas.container}>
-   
-  
-         <View style={styleFaturas.conteudoHeader}>
-              <View style={styleFaturas.titleLogo}>
-                <Feather name="trending-up" size={32} color="#fff" />
-                <Text style={styleFaturas.titleLogo1}>Cast</Text>
-                <Text style={styleFaturas.titleLogo2}>Finanças</Text>
-              </View>
-              <View style={styleFaturas.containerTextoImagem}>
-                <View style={styleFaturas.titleSaudacoes}>
-                  <Text style={styleFaturas.textoContainerImagemTexto}>
-                    Seja bem vindo(a)
-                  </Text>
-                  <Text
-                    style={styleFaturas.titleNome}
-                    numberOfLines={1}
-                    ellipsizeMode="tail"
-                  >
-                    {usuario?.user && usuario?.user.nome}
-                  </Text>
-                </View>
-                {usuario?.user && usuario?.user.imagem && (
-                  <View style={styleFaturas.containerImagem}>
-                    <Image
-                      source={{ uri: usuario.user.imagem }}
-                      style={styleFaturas.imagem}
-                    />
-                  </View>
-                )}
-              </View>
+      <StatusBar
+        barStyle="light-content"
+        backgroundColor="transparent"
+        translucent
+      />
+      <View style={styleFaturas.conteudoHeader}>
+        <View style={styleFaturas.titleLogo}>
+          <Feather name="trending-up" size={32} color="#fff" />
+          <Text style={styleFaturas.titleLogo1}>Cast</Text>
+          <Text style={styleFaturas.titleLogo2}>Finanças</Text>
+        </View>
+        <View style={styleFaturas.containerTextoImagem}>
+          <View style={styleFaturas.titleSaudacoes}>
+            <Text style={styleFaturas.textoContainerImagemTexto}>
+              Bem vindo(a)
+            </Text>
+            <Text
+              style={styleFaturas.titleNome}
+              numberOfLines={1}
+              ellipsizeMode="tail"
+            >
+              {usuario?.user && usuario?.user.nome}
+            </Text>
+          </View>
+          {usuario?.user && usuario?.user.imagem && (
+            <View style={styleFaturas.containerImagem}>
+              <Image
+                source={{ uri: usuario.user.imagem }}
+                style={styleFaturas.imagem}
+              />
             </View>
-
-        <View style={styleFaturas.containerFaturasAvencer}>
-          <Text style={styleFaturas.TextoTotalFaturas}>Total  de Faturas: {dadosFatura.length}</Text>
-          <Text style={styleFaturas.TextoFaturasAvencer}>Faturas a Vencer</Text>
-          <FlatList
-            data={dadosFatura}
-            keyExtractor={(item) => item.id.toString()}
-            renderItem={({ item }) => (
-              <FaturaItem key={item.id} fatura={item} onDelete={handleDelete} />
-            )}
-          />
+          )}
         </View>
       </View>
 
+      <View style={styleFaturas.containerFaturasAvencer}>
+        <Text style={styleFaturas.TextoTotalFaturas}>
+          Total de Faturas: {dadosFatura.length}
+        </Text>
+        <Text style={styleFaturas.TextoFaturasAvencer}>Faturas a Vencer</Text>
+        <FlatList
+          showsVerticalScrollIndicator={false}
+          data={dadosFatura}
+          keyExtractor={(item) => item.id.toString()}
+          renderItem={({ item }) => (
+            <FaturaItem key={item.id} fatura={item} onDelete={handleDelete} />
+          )}
+        />
+      </View>
+    </View>
   );
 }

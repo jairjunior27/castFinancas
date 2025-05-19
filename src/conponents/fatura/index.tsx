@@ -8,14 +8,13 @@ import {
 } from "react-native";
 import DateTimePicker from "@react-native-community/datetimepicker";
 
-import { salvarFatura } from "@/utils/faturaStorage";
 import * as Notifications from "expo-notifications";
 import { styleFatura } from "./style";
 import { Feather } from "@expo/vector-icons";
 import { useTransacoesDataBase } from "@/utils/dataBase/bancoSqlTransacao";
 import { formatarMoeda, limparMoeda } from "@/helps/formatValor";
-import { Transacoes } from "../transacoes";
 import { ContextTransacao } from "@/globalContext/transacoes/context";
+import { verificaNotificacao } from "@/helps/notificacao";
 
 export const Fatura = () => {
   const [titulo, setTitulo] = useState<string>("");
@@ -25,14 +24,14 @@ export const Fatura = () => {
   const [isDate, setIsDate] = useState(false);
   const { adcionarFatura } = useTransacoesDataBase();
   const [msg, setMsg] = useState("");
-  const [disable,setDisable] = useState<boolean>(false)
+  const [disable, setDisable] = useState<boolean>(false);
   const transacao = useContext(ContextTransacao);
   useEffect(() => {
     if (msg !== "") {
       const time = setTimeout(() => {
         setMsg("");
         transacao?.setIsModal(false);
-        setDisable(false)
+        setDisable(false);
       }, 3000);
       return () => clearTimeout(time);
     }
@@ -50,64 +49,12 @@ export const Fatura = () => {
       data: dataVencimento.getTime(),
     };
 
-    await salvarFatura(novaFatura);
-
-    const agora = new Date();
-    agora.setHours(0, 0, 0, 0);
-
-    const vencimento = new Date(dataVencimento);
-    vencimento.setHours(0, 0, 0, 0);
-
-    const dataTresDiasAntes = new Date(
-      dataVencimento.getFullYear(),
-      dataVencimento.getMonth(),
-      dataVencimento.getDate() - 3,
-      9,
-      0,
-      0,
-      0
-    );
-
-    if (dataTresDiasAntes.getTime() > Date.now()) {
-      await Notifications.scheduleNotificationAsync({
-        identifier: `fatura-${novaFatura.id}-3dias`,
-        content: {
-          title: "Fatura vencendo em breve!",
-          body: `Sua fatura "${titulo}" no valor de R$ ${valor} vence em 3 dias.`,
-          sound: true,
-        },
-        trigger: {
-          date: dataTresDiasAntes,
-        } as Notifications.DateTriggerInput,
-      });
-    }
-
-    const dataNoDia = new Date(
-      dataVencimento.getFullYear(),
-      dataVencimento.getMonth(),
-      dataVencimento.getDate(),
-      9,
-      0,
-      0,
-      0
-    );
-
-    if (dataNoDia.getTime() > Date.now()) {
-      await Notifications.scheduleNotificationAsync({
-        identifier: `fatura-${novaFatura.id}-hoje`,
-        content: {
-          title: "Fatura vence hoje!",
-          body: `Sua fatura "${titulo}" no valor de R$ ${valor} vence hoje.`,
-          sound: true,
-        },
-        trigger: {
-          date: dataNoDia,
-        } as Notifications.DateTriggerInput,
-      });
-    }
+  
     await adcionarFatura(novaFatura);
+
+    await verificaNotificacao(novaFatura)
     setMsg("Fatura salva e notificações agendadas!");
-    setDisable(true)
+    setDisable(true);
     setTitulo("");
     setValor("");
     setDataVencimento(new Date());
@@ -137,7 +84,10 @@ export const Fatura = () => {
       />
       <TouchableOpacity
         onPress={() => setMostrarDatePicker(true)}
-        style={[styleFatura.buttonData, disable && {backgroundColor: "#ccc", opacity: .4}]}
+        style={[
+          styleFatura.buttonData,
+          disable && { backgroundColor: "#ccc", opacity: 0.4 },
+        ]}
         disabled={disable}
       >
         <Feather name="calendar" size={24} color="#fff" />
@@ -159,8 +109,14 @@ export const Fatura = () => {
         />
       )}
       {msg && <Text style={styleFatura.textoMsg}>{msg}</Text>}
-      <TouchableOpacity style={[styleFatura.button, disable && {backgroundColor: "#ccc", opacity: .4}]} onPress={handleSalvar} 
-      disabled={disable}>
+      <TouchableOpacity
+        style={[
+          styleFatura.button,
+          disable && { backgroundColor: "#ccc", opacity: 0.4 },
+        ]}
+        onPress={handleSalvar}
+        disabled={disable}
+      >
         <Text style={styleFatura.textoButtom}>Salvar Fatura</Text>
       </TouchableOpacity>
     </View>

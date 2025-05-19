@@ -112,7 +112,7 @@ export default function Page() {
               monthTextColor: "rgb(20, 20, 20)",
               selectedDayBackgroundColor: "rgb(226, 174, 2)",
               selectedDayTextColor: "rgb(231, 243, 229)",
-              calendarBackground: "transparent",
+              calendarBackground: "rgba(233, 229, 229, 0.29)",
               textDayStyle: { color: "#111" },
               arrowStyle: {
                 margin: 0,

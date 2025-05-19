@@ -85,7 +85,7 @@ export const SignupForm = () => {
     try {
       if (formData) {
         await cadastroStore(formData);
-        Alert.alert("Sucesso", "Cadastro realizado com sucesso!");
+        setMensagem("Cadastro realizado com sucesso!");
         router.push("/(tabs)/home");
       } else {
         setMensagem("Favor preencher todos os campos");

@@ -8,20 +8,48 @@ import { UserProvider } from "@/globalContext/usuario/provider";
 import { SQLiteProvider } from "expo-sqlite";
 import { inicializeDataBase } from "@/utils/dataBase/inicializeBancoDados";
 
+Notifications.setNotificationHandler({
+  handleNotification: async () => ({
+    shouldShowAlert: true,
+    shouldPlaySound: true,
+    shouldSetBadge: false,
+    shouldShowBanner: true, 
+    shouldShowList: true,  
+  }),
+});
+
+
+
+export async function configurarNotificacoes() {
+  const { status } = await Notifications.requestPermissionsAsync();
+  if (status !== 'granted') {
+    alert('Permissão de notificação não concedida');
+    return;
+  }
+
+  if (Platform.OS === 'android') {
+    await Notifications.setNotificationChannelAsync('default', {
+      name: 'default',
+      importance: Notifications.AndroidImportance.HIGH,
+      sound: 'default',
+      vibrationPattern: [0, 250, 250, 250],
+      lightColor: '#FF231F7C',
+    });
+  }
+}
+
 
 export default function Layout() {
+  
   useEffect(() => {
-    const requestPermissions = async () => {
-      const { status } = await Notifications.requestPermissionsAsync();
-      if (status !== "granted") {
-        alert("Permissão para notificações negada");
-      }
-    };
+   
 
-    if (Platform.OS !== "web") {
-      requestPermissions();
-    }
+   configurarNotificacoes()
   }, []);
+
+
+
+
   return (
     <SQLiteProvider databaseName="transacoes.db" onInit={inicializeDataBase}>
     <TransacoesProvider>

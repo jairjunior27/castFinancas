@@ -101,18 +101,23 @@ export const Receita = () => {
         <TextInput
           style={style.input}
           placeholder="Digite o nome da Receita"
+          placeholderTextColor="#888"
           value={title}
           onChangeText={(e) => setTitle(e)}
         />
         <TextInput
           style={style.input}
           placeholder="Digite o valor R$"
+          placeholderTextColor="#888"
           keyboardType="numeric"
           onChangeText={handleChange}
           value={valor}
         />
         <TouchableOpacity
-          style={[style.inputData, disable && {backgroundColor: "#ccc", opacity: .4}]}
+          style={[
+            style.inputData,
+            disable && { backgroundColor: "#ccc", opacity: 0.4 },
+          ]}
           onPress={() => setShowPicker(true)}
           disabled={disable}
         >

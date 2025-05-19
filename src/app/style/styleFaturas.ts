@@ -9,7 +9,7 @@ export const styleFaturas = StyleSheet.create({
   conteudoHeader: {
     paddingTop: 40,
     paddingHorizontal: 20,
-    backgroundColor: "rgb(15, 61, 211)",
+    backgroundColor: "rgba(0, 16, 109, 0.6)",
     borderBottomLeftRadius: 40,
     borderBottomRightRadius: 40,
   },
@@ -66,6 +66,7 @@ export const styleFaturas = StyleSheet.create({
   },
   containerFaturasAvencer: {
     padding: 20,
+    maxHeight: height * .7
   },
   TextoFaturasAvencer: {
     textAlign: "center",

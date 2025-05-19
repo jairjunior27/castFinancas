@@ -38,7 +38,6 @@ export const style = StyleSheet.create({
     color: "#E1494A",
     padding: 5 ,
     borderRadius: 10,
-    backgroundColor: "#fff",
   },
   containerPreview: {
     alignItems: "center",
@@ -62,8 +61,7 @@ export const style = StyleSheet.create({
     alignItems: "center",
   },
   textoErroImagem: {
-    color: "#ff0000",
-    backgroundColor: "#fff",
+    color: "#fff",
     padding: 5 ,
     borderRadius: 10
   },

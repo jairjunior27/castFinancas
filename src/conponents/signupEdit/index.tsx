@@ -108,7 +108,7 @@ export const SignupEditForm = () => {
         imagem: formData.imagem,
       });
 
-      Alert.alert("Sucesso", "Cadastro atualizado com sucesso!");
+      setMensagem("Cadastro atualizado com sucesso!");
       router.push("/(tabs)/home");
     } catch (e) {
       console.log("erro ao cadastrar", e);

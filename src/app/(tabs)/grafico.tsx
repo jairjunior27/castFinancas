@@ -1,5 +1,5 @@
 import React, { useContext, useEffect, useRef, useState } from "react";
-import { PieChart } from "react-native-chart-kit";
+import { PieChart, BarChart } from "react-native-chart-kit";
 import {
   Dimensions,
   View,
@@ -7,6 +7,7 @@ import {
   Text,
   TouchableOpacity,
   StatusBar,
+  ScrollView,
 } from "react-native";
 import * as Print from "expo-print";
 import * as Sharing from "expo-sharing";
@@ -42,9 +43,70 @@ export default function RelatorioGrafico() {
   const dadosTransaqcoes = useContext(ContextTransacao);
   const [mesAtual, setMesAtual] = useState(new Date().getMonth() + 1);
   const [anoAtual, setanoAtual] = useState(new Date().getFullYear());
+
   const chartRef = useRef(null);
+  const chartBarGastosRef = useRef(null);
+  const chartBarReceitaRef = useRef(null);
+
   const Width = Dimensions.get("window").width;
   const Height = Dimensions.get("window").height;
+  const [dadosBarraGastos, setBarraGastos] = useState<{
+    labels: string[];
+    data: number[];
+  }>({ labels: [], data: [] });
+  const [dadosBarraReceita, setBarraReceita] = useState<{
+    labelsReceita: string[];
+    dataReceita: number[];
+  }>({
+    labelsReceita: [],
+    dataReceita: [],
+  });
+
+  const numberOfBar = dadosBarraGastos.labels.length;
+  const barWidth = 20;
+
+  useEffect(() => {
+    if (!dadosTransaqcoes?.transacoes.length) return;
+
+    const hoje = new Date();
+
+    const zerarHoras = (data: Date) => {
+      data.setHours(0, 0, 0, 0);
+      return data;
+    };
+
+    const inicioSemana = zerarHoras(new Date(hoje));
+    inicioSemana.setDate(hoje.getDate() - hoje.getDay());
+
+    const fimSemana = zerarHoras(new Date(inicioSemana));
+    fimSemana.setDate(inicioSemana.getDate() + 6);
+
+    const diasDaSemana = ["Dom", "Seg", "Ter", "Qua", "Qui", "Sex", "Sab"];
+    const gastosPorDia = [0, 0, 0, 0, 0, 0, 0];
+    const receitasPorDia = [0, 0, 0, 0, 0, 0, 0];
+
+    dadosTransaqcoes.transacoes.forEach((t) => {
+      const data = zerarHoras(new Date(t.data));
+
+      if (data >= inicioSemana && data <= fimSemana) {
+        const diaSemana = data.getDay();
+        if (t.tipo === "Saida") {
+          gastosPorDia[diaSemana] += t.valor;
+        } else if (t.tipo === "Entrada") {
+          receitasPorDia[diaSemana] += t.valor;
+        }
+      }
+    });
+
+    setBarraGastos({
+      labels: diasDaSemana,
+      data: gastosPorDia,
+    });
+    setBarraReceita({
+      labelsReceita: diasDaSemana,
+      dataReceita: receitasPorDia,
+    });
+  }, [dadosTransaqcoes?.transacoes]);
 
   useEffect(() => {
     const userAll = async () => {
@@ -74,13 +136,16 @@ export default function RelatorioGrafico() {
       {}
     );
 
-    const dados = Object.keys(resumo).map((label, index) => ({
-      name: label,
-      value: resumo[label],
-      color: index % 2 === 0 ? "#2E8B57" : "#FF4500",
-      legendFontColor: "#000",
-      legendFontSize: 14,
-    }));
+    const ordemTipos = ["Entrada", "Saida"];
+    const dados = ordemTipos
+      .filter((tipo) => resumo[tipo] !== undefined)
+      .map((label, index) => ({
+        name: label,
+        value: resumo[label],
+        color: label === "Entrada" ? "#2E8B57" : "#FF4500",
+        legendFontColor: "#000",
+        legendFontSize: 14,
+      }));
 
     setDadosGrafico(dados);
     setTimeout(() => capturarGrafico(dados, transacoesFiltradas), 1000);
@@ -94,12 +159,35 @@ export default function RelatorioGrafico() {
         format: "png",
         quality: 1,
         result: "base64",
-        width: screenWidth * 2, 
+        width: screenWidth,
+      });
+
+      const uriGastos = await captureRef(chartBarGastosRef, {
+        format: "png",
+        quality: 1,
+        result: "base64",
+        width: screenWidth,
+      });
+
+      const uriReceitas = await captureRef(chartBarReceitaRef, {
+        format: "png",
+        quality: 1,
+        result: "base64",
+        width: screenWidth,
       });
 
       const imagem = `data:image/png;base64,${uri}`;
+      const imagemBarraGastos = `data:image/png;base64,${uriGastos}`;
+      const imagemBarraReceitas = `data:image/png;base64,${uriReceitas}`;
       setImagemBase64(imagem);
-      gerarRelatorio(dados, imagem, transacoes, usuario);
+      gerarRelatorio(
+        dados,
+        imagem,
+        transacoes,
+        usuario,
+        imagemBarraGastos,
+        imagemBarraReceitas
+      );
     } catch (error) {
       console.error("Erro ao capturar gráfico", error);
     }
@@ -109,7 +197,9 @@ export default function RelatorioGrafico() {
     dados: any,
     imagem: string,
     transacoes: transacoesType[],
-    usuario?: cadastroType | null
+    usuario?: cadastroType | null,
+    imagemGastos?: string,
+    imagemReceitas?: string
   ) => {
     const totalReceitas = transacoes
       .filter((t) => t.tipo === "Entrada")
@@ -156,28 +246,49 @@ export default function RelatorioGrafico() {
       <html>
         <head>
           <style>
-            body { font-family: Arial; padding: 20px; }
-            h1, h2 { text-align: center; }
+          @page {
+    margin: 40px;
+  }
+            body { font-family: Arial; margin: 40px; }
+            h1, h2 { text-align: center; marginBottom: 20px }
             table { width: 100%; border-collapse: collapse; }
             th, td { border: 1px solid #ddd; padding: 8px; text-align: center; }
             .divider { margin: 10px 0; border-bottom: 1px solid #ccc; }
           </style>
         </head>
-        <body>
-          <h1>Relatório Financeiro - ${mesAtual}/${anoAtual}</h1>
+        <body">
+          <h1>Relatório Financeiro - ${
+            mesCalendar[mesAtual - 1]
+          }/${anoAtual}</h1>
     `;
 
     dados.forEach((item: any) => {
-      textoRelatorio += `<p><strong>${
-        item.name
-      }:</strong> R$ ${FormatDinheiroBr(item.value)}</p>`;
+      textoRelatorio += `<p><strong>${item.name}:</strong> ${FormatDinheiroBr(
+        item.value
+      )}</p>`;
     });
 
     textoRelatorio += `
-      <h2>Gráfico Financeiro</h2>
-      <img src="${imagem}" style="width: 100%; height: auto;" />
+  
+      <img src="${imagemReceitas}" style="width: 100%;max-width: 600px; height: 400px; " />
+     
+      <img src="${imagemGastos}" style="width: 100%; max-width: 600px; height:400px;" />
+    
+      <img src="${imagem}" style="width: 100%;  height: auto;" />
       <div class="divider"></div>
-      <table>
+    
+   
+      <h2>Total Geral</h2>
+      <p><strong>Receitas Totais:</strong>  ${FormatDinheiroBr(
+        totalReceitas
+      )}</p>
+      <p><strong>Despesas Totais:</strong>  ${FormatDinheiroBr(
+        totalDespesas
+      )}</p>
+      <p><strong>Saldo Final:</strong>  ${FormatDinheiroBr(saldoAtual)}</p>
+      <p><strong>Total de Transações:</strong> ${transacoes.length}</p>
+        <h2 style="display: flex; justify-content: center; margin: 20;">Tabela de Gastos:</h2>
+         <table>
         <thead>
           <tr>
             <th>Título</th>
@@ -200,11 +311,6 @@ export default function RelatorioGrafico() {
             .join("")}
         </tbody>
       </table>
-      <h2>Total Geral</h2>
-      <p><strong>Receitas Totais:</strong> R$ ${FormatDinheiroBr(totalReceitas)}</p>
-      <p><strong>Despesas Totais:</strong> R$ ${FormatDinheiroBr(totalDespesas)}</p>
-      <p><strong>Saldo Final:</strong> R$ ${FormatDinheiroBr(totalReceitas)}</p>
-      <p><strong>Total de Transações:</strong> ${transacoes.length}</p>
       <p style="font-size: 18px; font-weight: bold; text-align: center; margin-top: 20px">${comparacaoMensagem}</p>
     </body></html>`;
 
@@ -234,7 +340,7 @@ export default function RelatorioGrafico() {
   };
 
   return (
-    <View style={styleGrafico.container}>
+    <ScrollView style={styleGrafico.container}>
       <StatusBar
         translucent
         backgroundColor="transparent"
@@ -245,6 +351,110 @@ export default function RelatorioGrafico() {
           <Feather name="trending-up" size={32} color="#40F313" />
           <Text style={styleGrafico.titleLogo1}>Cast</Text>
           <Text style={styleGrafico.titleLogo2}>Finanças</Text>
+        </View>
+
+        <View>
+          <ViewShot
+            ref={chartBarReceitaRef}
+            options={{ format: "png", quality: 1 }}
+          >
+            <Text
+              style={{
+                textAlign: "center",
+                fontWeight: "bold",
+                fontSize: 14,
+                marginBottom: 10,
+              }}
+            >
+              Receita Semanal
+            </Text>
+
+            {dadosGrafico.length > 0 && (
+              <BarChart
+                data={{
+                  labels: dadosBarraReceita.labelsReceita,
+                  datasets: [{ data: dadosBarraReceita.dataReceita }],
+                }}
+                width={Width * 0.9}
+                height={220}
+                yAxisLabel="R$"
+                chartConfig={{
+                  backgroundColor: "#fff",
+                  backgroundGradientFrom: "#fff",
+                  backgroundGradientTo: "#fff",
+
+                  decimalPlaces: 2,
+
+                  color: (opacity = 1) => `rgba(46, 139, 87, ${opacity})`,
+                  labelColor: () => "#000",
+                  style: { borderRadius: 16 },
+                  propsForLabels: {
+                    fontSize: 10,
+                  },
+                }}
+                style={{
+                  marginVertical: 8,
+                  borderRadius: 16,
+                  alignSelf: "center",
+                }}
+                yAxisSuffix={""}
+                fromZero={true}
+                withInnerLines={false}
+                showValuesOnTopOfBars={true}
+              />
+            )}
+          </ViewShot>
+        </View>
+        <View>
+          <ViewShot
+            ref={chartBarGastosRef}
+            options={{ format: "png", quality: 1 }}
+          >
+            <Text
+              style={{
+                textAlign: "center",
+                fontWeight: "bold",
+                fontSize: 14,
+                marginBottom: 10,
+              }}
+            >
+              Despesa Semanal
+            </Text>
+            {dadosGrafico.length > 0 && (
+              <BarChart
+                data={{
+                  labels: dadosBarraGastos.labels,
+                  datasets: [{ data: dadosBarraGastos.data }],
+                }}
+                width={screenWidth * 0.9}
+                height={220}
+                yAxisLabel="R$"
+                chartConfig={{
+                  backgroundColor: "#fff",
+                  backgroundGradientFrom: "#fff",
+                  backgroundGradientTo: "#fff",
+
+                  decimalPlaces: 2,
+
+                  color: (opacity = 1) => `rgba(255, 69, 0, ${opacity})`,
+                  labelColor: () => "#000",
+                  style: { borderRadius: 16 },
+                  propsForLabels: {
+                    fontSize: 10,
+                  },
+                }}
+                style={{
+                  marginVertical: 8,
+                  borderRadius: 16,
+                  alignSelf: "center",
+                }}
+                yAxisSuffix={""}
+                fromZero={true}
+                withInnerLines={false}
+                showValuesOnTopOfBars={true}
+              />
+            )}
+          </ViewShot>
         </View>
 
         <View style={styleGrafico.data}>
@@ -304,7 +514,6 @@ export default function RelatorioGrafico() {
               accessor="value"
               backgroundColor="transparent"
               paddingLeft="15"
-           
             />
           ) : (
             <View
@@ -318,12 +527,13 @@ export default function RelatorioGrafico() {
             </View>
           )}
         </ViewShot>
+
         <View style={styleGrafico.buttomContainer}>
           <TouchableOpacity onPress={gerarPDF} style={styleGrafico.button}>
             <Text style={styleGrafico.textoButtom}>Baixar Relatório PDF</Text>
           </TouchableOpacity>
         </View>
       </View>
-    </View>
+    </ScrollView>
   );
 }
